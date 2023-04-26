@@ -1,5 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
+import java.net.URI
 
 plugins {
     `java-library`
@@ -7,7 +7,6 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
     `maven-publish`
     signing
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }
 
 java {
@@ -36,21 +35,21 @@ dependencies {
 }
 
 group = "com.valtechmobility"
-version = "0.0.1"
+version = "0.0.2"
 
 publishing {
     publications {
         register("mavenJava", MavenPublication::class) {
             artifactId = "gradle-credentials-onepassword"
             from(components["java"])
-                    versionMapping {
-                        usage("java-api") {
-                            fromResolutionOf("runtimeClasspath")
-                        }
-                        usage("java-runtime") {
-                            fromResolutionResult()
-                        }
-                    }
+            versionMapping {
+                usage("java-api") {
+                    fromResolutionOf("runtimeClasspath")
+                }
+                usage("java-runtime") {
+                    fromResolutionResult()
+                }
+            }
             pom {
                 name.set("gradle-credentials-onepassword")
                 description.set("gradle-credentials-onepassword is a gradle repository credential integration for 1Password")
@@ -77,15 +76,15 @@ publishing {
             }
         }
     }
-}
 
-nexusPublishing {
     repositories {
-        sonatype {
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-            username.set(System.getenv("MAVEN_USERNAME"))
-            password.set(System.getenv("MAVEN_PASSWORD"))
+        maven {
+            name = "GitHubPackages"
+            url = URI("https://maven.pkg.github.com/ValtechMobility/gradle-onepassword-credentials-plugin")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
         }
     }
 }
