@@ -39,7 +39,7 @@ internal class OnepasswordAccessCredentialsTest {
         credentials.username
         verify {
             Runtime.getRuntime()
-            .exec("op item get \"$EXAMPLE_VAULT_KEY\" --fields label=username")
+                .exec("op item get \"$EXAMPLE_VAULT_KEY\" --fields label=username")
         }
     }
 
