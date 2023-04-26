@@ -3,11 +3,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.7.10"
-    `java-gradle-plugin`
     id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
 }
 
-group = "com.valtechmobility.gradle.plugin.credentials.onepassword"
+group = "com.valtechmobility.gradle.credentials.onepassword"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -32,13 +31,4 @@ dependencies {
 
     testImplementation("junit:junit:4.13.2")
     testImplementation(gradleTestKit())
-}
-
-gradlePlugin {
-    plugins {
-        create("onepassword_credentials") {
-            id = "com.valtechmobility.gradle.plugin.credentials.onepassword"
-            implementationClass = "com.valtechmobility.gradle.plugin.credentials.onepassword.OnepasswordCredentialsPlugin"
-        }
-    }
 }
