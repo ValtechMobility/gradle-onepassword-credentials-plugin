@@ -10,7 +10,7 @@ import org.gradle.api.credentials.PasswordCredentials
  * Not storing the username and password here is very slow (gradle sync takes ~ 3minutes),
  * thus username and password are stored here temporarily.
  */
-public class OnepasswordAccessPasswordCredentials(
+public class OnepasswordAccessCredentials(
     private val vaultKey: String
 ) : PasswordCredentials {
 
