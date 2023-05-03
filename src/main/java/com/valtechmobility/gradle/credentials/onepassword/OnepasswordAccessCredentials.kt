@@ -40,7 +40,6 @@ public class OnepasswordAccessCredentials(
             if (result != 0) {
                 println("Could not access vault!")
                 println(String(process.errorStream.readBytes()))
-                Exception().printStackTrace()
                 return ByteArray(0)
             }
             return process.inputStream.readBytes()
