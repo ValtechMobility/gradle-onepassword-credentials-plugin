@@ -14,24 +14,24 @@ public class OnepasswordAccessCredentials(
     private val vaultKey: String
 ) : PasswordCredentials {
 
-    private var vaultUsername: ByteArray? = null
-    private var vaultPassword: ByteArray? = null
+    private var vaultUsername: CharArray? = null
+    private var vaultPassword: CharArray? = null
 
     override fun getUsername(): String {
-        val bytes = vaultUsername ?: requestVaultEntry("username").also {
+        val chars = vaultUsername ?: requestVaultEntry("username").also {
             vaultUsername = it
         }
-        return String(bytes)
+        return chars.concatToString()
     }
 
     override fun getPassword(): String {
-        val bytes = vaultPassword ?: requestVaultEntry("password").also {
+        val chars = vaultPassword ?: requestVaultEntry("password").also {
             vaultPassword = it
         }
-        return String(bytes)
+        return chars.concatToString()
     }
 
-    private fun requestVaultEntry(label: String): ByteArray {
+    private fun requestVaultEntry(label: String): CharArray {
         var process: Process? = null
         try {
             val runtime = Runtime.getRuntime()
@@ -40,15 +40,30 @@ public class OnepasswordAccessCredentials(
             if (result != 0) {
                 println("Could not access vault!")
                 println(String(process.errorStream.readBytes()))
-                return ByteArray(0)
+                return CharArray(0)
             }
-            return process.inputStream.readBytes()
+            val bytes = process.inputStream.readBytes()
+            val string = bytes.decodeToString()
+            for (i in bytes.indices) {
+                bytes[i] = 0
+            }
+            val endIndex = string.lastIndexOf { it.isISOControl() }
+            return string.toCharArray(0, endIndex)
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
             process?.destroyForcibly()
         }
-        return ByteArray(0)
+        return CharArray(0)
+    }
+
+    private inline fun CharSequence.lastIndexOf(crossinline predicate: (Char) -> Boolean): Int {
+        for (i in length - 1 downTo 0) {
+            if (!predicate(get(i))) {
+                return i + 1
+            }
+        }
+        return 0
     }
 
     override fun setUsername(userName: String?) {
@@ -62,12 +77,12 @@ public class OnepasswordAccessCredentials(
     protected fun finalize() {
         vaultUsername?.let {
             for (i in it.indices) {
-                it[i] = 0
+                it[i] = '\u0000'
             }
         }
         vaultPassword?.let {
             for (i in it.indices) {
-                it[i] = 0
+                it[i] = '\u0000'
             }
         }
     }

@@ -6,6 +6,7 @@ import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
@@ -17,16 +18,17 @@ import org.junit.Test
 internal class OnepasswordAccessCredentialsTest {
 
     private lateinit var credentials: OnepasswordAccessCredentials
-
+    private lateinit var process: Process
     @Before
     fun setup() {
         credentials = OnepasswordAccessCredentials(EXAMPLE_VAULT_KEY)
         mockkStatic(Runtime::getRuntime)
-        every { Runtime.getRuntime().exec(any<String>()) } returns mockk {
+        process = mockk {
             every { waitFor() } returns 0
             every { inputStream } returns EXAMPLE_RESULT.byteInputStream()
             every { destroyForcibly() } returns this
         }
+        every { Runtime.getRuntime().exec(any<String>()) } returns process
     }
 
     @After
@@ -70,6 +72,32 @@ internal class OnepasswordAccessCredentialsTest {
             Runtime.getRuntime()
                 .exec("op item get \"$EXAMPLE_VAULT_KEY\" --fields label=password")
         }
+    }
+
+    @Test
+    fun credentialsContainControlChars_usernameRequested_usernameReturnedWithoutControlChars() {
+        every { process.inputStream } returns
+            "$EXAMPLE_RESULT\u0000\u0001\u001E\u001F\u007F\u0080\u009E\u009F"
+                .byteInputStream()
+        val username = credentials.username
+        Assert.assertEquals(
+            "Username did not have all iso control chars removed!",
+            EXAMPLE_RESULT,
+            username
+        )
+    }
+
+    @Test
+    fun credentialsContainControlChars_passwordRequested_passwordReturnedWithoutControlChars() {
+        every { process.inputStream } returns
+            "$EXAMPLE_RESULT\u0000\u0001\u001E\u001F\u007F\u0080\u009E\u009F"
+                .byteInputStream()
+        val password = credentials.password
+        Assert.assertEquals(
+            "Password did not have all iso control chars removed!",
+            EXAMPLE_RESULT,
+            password
+        )
     }
 
     companion object {
