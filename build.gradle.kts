@@ -109,9 +109,3 @@ nexusPublishing {
         }
     }
 }
-
-javadoc {
-    if(JavaVersion.current().isJava9Compatible()) {
-        options.addBooleanOption('html5', true)
-    }
-}
