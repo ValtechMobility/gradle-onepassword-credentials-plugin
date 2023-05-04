@@ -41,7 +41,7 @@ java {
 }
 
 group = "io.github.valtechmobility"
-version = "0.0.5"
+version = "0.0.6"
 
 publishing {
     publications {
@@ -79,17 +79,6 @@ publishing {
                     developerConnection.set("scm:git://github.com/ValtechMobility/gradle-onepassword-credentials-plugin.git")
                     url.set("https://github.com/ValtechMobility/gradle-onepassword-credentials-plugin")
                 }
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = URI("https://maven.pkg.github.com/ValtechMobility/gradle-onepassword-credentials-plugin")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
