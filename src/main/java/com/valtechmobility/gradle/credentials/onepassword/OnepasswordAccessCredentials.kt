@@ -1,8 +1,12 @@
+/*
+ * Copyright (C) 2023 Valtech Mobility
+ */
 package com.valtechmobility.gradle.credentials.onepassword
 
 import org.gradle.api.credentials.PasswordCredentials
 
 /**
+ *
  * Provides lazy access to passwords through the 1password cli.
  * 1. Enable 1password CLI: https://developer.1password.com/docs/cli/get-started
  * 2. Create a gradle.properties in your home directory that contains the key of the username&password in the vault
