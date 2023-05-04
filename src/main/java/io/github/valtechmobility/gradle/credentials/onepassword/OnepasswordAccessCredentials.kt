@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2023 Valtech Mobility
  */
-package com.valtechmobility.gradle.credentials.onepassword
+package io.github.valtechmobility.gradle.credentials.onepassword
 
 import org.gradle.api.credentials.PasswordCredentials
 

@@ -6,6 +6,8 @@ plugins {
     kotlin("jvm") version "1.7.10"
     id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
     `maven-publish`
+    `signing`
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }
 
 java {
@@ -33,7 +35,7 @@ dependencies {
     testImplementation("io.mockk:mockk:1.12.3")
 }
 
-group = "com.valtechmobility"
+group = "io.github.valtechmobility"
 version = "0.0.3"
 
 publishing {
@@ -62,9 +64,9 @@ publishing {
                 }
                 developers {
                     developer {
-                        id.set("janphkre")
-                        name.set("Jan Phillip Kretzschmar")
-                        email.set("janphkre@gmx.de")
+                        id.set("vm")
+                        name.set("Valtech Mobility")
+                        email.set("sonatype@valtech-mobility.com")
                     }
                 }
                 scm {
@@ -84,6 +86,21 @@ publishing {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
             }
+        }
+    }
+}
+
+signing {
+    sign(publishing.publications["mavenJava"])
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            username.set(System.getenv("MAVEN_USERNAME"))
+            password.set(System.getenv("MAVEN_PASSWORD"))
         }
     }
 }
