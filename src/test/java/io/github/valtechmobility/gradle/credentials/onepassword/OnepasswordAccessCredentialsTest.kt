@@ -1,4 +1,4 @@
-package com.valtechmobility.gradle.credentials.onepassword
+package io.github.valtechmobility.gradle.credentials.onepassword
 
 import io.mockk.every
 import io.mockk.mockk
