@@ -35,8 +35,13 @@ dependencies {
     testImplementation("io.mockk:mockk:1.12.3")
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 group = "io.github.valtechmobility"
-version = "0.0.3"
+version = "0.0.4"
 
 publishing {
     publications {
@@ -102,5 +107,11 @@ nexusPublishing {
             username.set(System.getenv("MAVEN_USERNAME"))
             password.set(System.getenv("MAVEN_PASSWORD"))
         }
+    }
+}
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
     }
 }
