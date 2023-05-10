@@ -39,7 +39,7 @@ public class OnepasswordAccessCredentials(
         var process: Process? = null
         try {
             val runtime = Runtime.getRuntime()
-            process = runtime.exec(arrayOf("op", "item", "get", vaultKey, "--fields", "lavel=$label"))
+            process = runtime.exec(arrayOf("op", "item", "get", vaultKey, "--fields", "label=$label"))
             val result = process.waitFor()
             if (result != 0) {
                 println("Could not access vault!")

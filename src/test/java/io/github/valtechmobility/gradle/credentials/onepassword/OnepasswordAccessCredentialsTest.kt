@@ -28,7 +28,7 @@ internal class OnepasswordAccessCredentialsTest {
             every { inputStream } returns EXAMPLE_RESULT.byteInputStream()
             every { destroyForcibly() } returns this
         }
-        every { Runtime.getRuntime().exec(any<String>()) } returns process
+        every { Runtime.getRuntime().exec(any<Array<String>>()) } returns process
     }
 
     @After
@@ -41,7 +41,7 @@ internal class OnepasswordAccessCredentialsTest {
         credentials.username
         verify {
             Runtime.getRuntime()
-                .exec("op item get \"$EXAMPLE_VAULT_KEY\" --fields label=username")
+                .exec(arrayOf("op", "item", "get", EXAMPLE_VAULT_KEY, "--fields", "label=username"))
         }
     }
 
@@ -50,7 +50,7 @@ internal class OnepasswordAccessCredentialsTest {
         credentials.password
         verify {
             Runtime.getRuntime()
-                .exec("op item get \"$EXAMPLE_VAULT_KEY\" --fields label=password")
+                .exec(arrayOf("op", "item", "get", EXAMPLE_VAULT_KEY, "--fields", "label=password"))
         }
     }
 
@@ -60,7 +60,7 @@ internal class OnepasswordAccessCredentialsTest {
         credentials.username
         verify(exactly = 1) {
             Runtime.getRuntime()
-                .exec("op item get \"$EXAMPLE_VAULT_KEY\" --fields label=username")
+                .exec(arrayOf("op", "item", "get", EXAMPLE_VAULT_KEY, "--fields", "label=username"))
         }
     }
 
@@ -70,7 +70,7 @@ internal class OnepasswordAccessCredentialsTest {
         credentials.password
         verify(exactly = 1) {
             Runtime.getRuntime()
-                .exec("op item get \"$EXAMPLE_VAULT_KEY\" --fields label=password")
+                .exec(arrayOf("op", "item", "get", EXAMPLE_VAULT_KEY, "--fields", "label=password"))
         }
     }
 
