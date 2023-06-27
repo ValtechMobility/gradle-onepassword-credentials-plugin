@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `java-library`
-    kotlin("jvm") version "1.7.10"
+    kotlin("jvm") version "1.8.22"
     id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
     `maven-publish`
     `signing`
