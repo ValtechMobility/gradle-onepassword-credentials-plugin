@@ -9,13 +9,16 @@ import org.gradle.api.credentials.PasswordCredentials
  *
  * Provides lazy access to passwords through the 1password cli.
  * 1. Enable 1password CLI: https://developer.1password.com/docs/cli/get-started
- * 2. Create a gradle.properties in your home directory that contains the key of the username&password in the vault
+ * 2. Create a gradle.properties in your home directory
+ * 3. Place the key of the vault in the gradle.properties (Default is Private)
+ * 4. Place the key of the username&password in the vault in the gradle.properties
  *
  * Not storing the username and password here is very slow (gradle sync takes ~ 3minutes),
  * thus username and password are stored here temporarily.
  */
 public class OnepasswordAccessCredentials(
-    private val vaultKey: String
+    private val vaultKey: String,
+    private val itemKey: String
 ) : PasswordCredentials {
 
     private var vaultUsername: CharArray? = null
@@ -39,7 +42,8 @@ public class OnepasswordAccessCredentials(
         var process: Process? = null
         try {
             val runtime = Runtime.getRuntime()
-            process = runtime.exec(arrayOf("op", "item", "get", vaultKey, "--fields", "label=$label"))
+            val uri = "op://$vaultKey/$itemKey/$label"
+            process = runtime.exec(arrayOf("op", "read", uri))
             val result = process.waitFor()
             if (result != 0) {
                 println("Could not access vault!")

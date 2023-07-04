@@ -21,7 +21,7 @@ internal class OnepasswordAccessCredentialsTest {
     private lateinit var process: Process
     @Before
     fun setup() {
-        credentials = OnepasswordAccessCredentials(EXAMPLE_VAULT_KEY)
+        credentials = OnepasswordAccessCredentials(EXAMPLE_VAULT_KEY, EXAMPLE_ITEM_KEY)
         mockkStatic(Runtime::getRuntime)
         process = mockk {
             every { waitFor() } returns 0
@@ -41,7 +41,7 @@ internal class OnepasswordAccessCredentialsTest {
         credentials.username
         verify {
             Runtime.getRuntime()
-                .exec(arrayOf("op", "item", "get", EXAMPLE_VAULT_KEY, "--fields", "label=username"))
+                .exec(arrayOf("op", "read", "op://$EXAMPLE_VAULT_KEY/$EXAMPLE_ITEM_KEY/username"))
         }
     }
 
@@ -50,7 +50,7 @@ internal class OnepasswordAccessCredentialsTest {
         credentials.password
         verify {
             Runtime.getRuntime()
-                .exec(arrayOf("op", "item", "get", EXAMPLE_VAULT_KEY, "--fields", "label=password"))
+                .exec(arrayOf("op", "read", "op://$EXAMPLE_VAULT_KEY/$EXAMPLE_ITEM_KEY/password"))
         }
     }
 
@@ -60,7 +60,7 @@ internal class OnepasswordAccessCredentialsTest {
         credentials.username
         verify(exactly = 1) {
             Runtime.getRuntime()
-                .exec(arrayOf("op", "item", "get", EXAMPLE_VAULT_KEY, "--fields", "label=username"))
+                .exec(arrayOf("op", "read", "op://$EXAMPLE_VAULT_KEY/$EXAMPLE_ITEM_KEY/username"))
         }
     }
 
@@ -70,7 +70,7 @@ internal class OnepasswordAccessCredentialsTest {
         credentials.password
         verify(exactly = 1) {
             Runtime.getRuntime()
-                .exec(arrayOf("op", "item", "get", EXAMPLE_VAULT_KEY, "--fields", "label=password"))
+                .exec(arrayOf("op", "read", "op://$EXAMPLE_VAULT_KEY/$EXAMPLE_ITEM_KEY/password"))
         }
     }
 
@@ -83,7 +83,7 @@ internal class OnepasswordAccessCredentialsTest {
         Assert.assertEquals(
             "Username did not have all iso control chars removed!",
             EXAMPLE_RESULT,
-            username
+            username,
         )
     }
 
@@ -96,12 +96,13 @@ internal class OnepasswordAccessCredentialsTest {
         Assert.assertEquals(
             "Password did not have all iso control chars removed!",
             EXAMPLE_RESULT,
-            password
+            password,
         )
     }
 
     companion object {
         private const val EXAMPLE_VAULT_KEY = "EXAMPLE_VAULT_KEY"
+        private const val EXAMPLE_ITEM_KEY = "EXAMPLE_ITEM_KEY"
         private const val EXAMPLE_RESULT = "EXAMPLE_RESULT"
     }
 }
