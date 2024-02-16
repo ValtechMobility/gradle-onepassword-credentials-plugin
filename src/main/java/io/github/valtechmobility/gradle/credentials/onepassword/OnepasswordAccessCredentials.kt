@@ -18,7 +18,7 @@ import org.gradle.api.credentials.PasswordCredentials
  */
 public class OnepasswordAccessCredentials(
     private val vaultKey: String,
-    private val itemKey: String
+    private val itemKey: String,
 ) : PasswordCredentials {
 
     private var vaultUsername: CharArray? = null

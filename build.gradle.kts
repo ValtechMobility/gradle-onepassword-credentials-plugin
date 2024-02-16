@@ -57,7 +57,9 @@ publishing {
             }
             pom {
                 name.set("gradle-credentials-onepassword")
-                description.set("gradle-credentials-onepassword is a gradle repository credential integration for 1Password")
+                description.set(
+                    "gradle-credentials-onepassword is a gradle repository credential integration for 1Password",
+                )
                 url.set("https://github.com/ValtechMobility/gradle-onepassword-credentials-plugin")
 
                 licenses {
@@ -75,7 +77,9 @@ publishing {
                 }
                 scm {
                     connection.set("scm:git://github.com/ValtechMobility/gradle-onepassword-credentials-plugin.git")
-                    developerConnection.set("scm:git://github.com/ValtechMobility/gradle-onepassword-credentials-plugin.git")
+                    developerConnection.set(
+                        "scm:git://github.com/ValtechMobility/gradle-onepassword-credentials-plugin.git",
+                    )
                     url.set("https://github.com/ValtechMobility/gradle-onepassword-credentials-plugin")
                 }
             }

@@ -19,6 +19,7 @@ internal class OnepasswordAccessCredentialsTest {
 
     private lateinit var credentials: OnepasswordAccessCredentials
     private lateinit var process: Process
+
     @Before
     fun setup() {
         credentials = OnepasswordAccessCredentials(EXAMPLE_VAULT_KEY, EXAMPLE_ITEM_KEY)
