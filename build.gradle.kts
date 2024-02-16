@@ -26,6 +26,22 @@ tasks.withType<Test> {
     }
 }
 
+configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+    version.set("1.1.1")
+    debug.set(false)
+    verbose.set(false)
+    android.set(true)
+    outputToConsole.set(true)
+    outputColorName.set("RED")
+    ignoreFailures.set(false)
+    baseline.set(file("ktlint-baseline.xml"))
+    filter {
+        exclude {
+            projectDir.toURI().relativize(it.file.toURI()).path.startsWith("build/")
+        }
+    }
+}
+
 dependencies {
     implementation(gradleApi())
 
