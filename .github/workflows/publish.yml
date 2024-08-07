@@ -28,7 +28,7 @@ jobs:
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@585b565652cefbba63202a7f927df0ff99f34001
+        uses: gradle/gradle-build-action@093dfe9d598ec5a42246855d09b49dc76803c005
         with:
           arguments: build
       - name: Decode GPG Key
