@@ -47,7 +47,7 @@ dependencies {
 
     testImplementation("junit:junit:4.13.2")
     testImplementation(gradleTestKit())
-    testImplementation("io.mockk:mockk:1.13.9")
+    testImplementation("io.mockk:mockk:1.13.13")
 }
 
 java {
