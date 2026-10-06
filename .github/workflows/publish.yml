@@ -21,7 +21,7 @@ jobs:
       - name: Set up Java 17 JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '25'
           distribution: 'temurin'
           architecture: x64
           check-latest: true
