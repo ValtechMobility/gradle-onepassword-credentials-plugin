@@ -2,21 +2,25 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `java-library`
-    kotlin("jvm") version "1.9.22"
+    kotlin("jvm") version "2.2.0"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
     `maven-publish`
     `signing`
-    id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
+    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
-    kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
+    compilerOptions {
+        freeCompilerArgs.addAll(
+            "-Xexplicit-api=strict",
+            "-opt-in=kotlin.RequiresOptIn",
+        )
+    }
 }
 
 tasks.withType<Test> {
