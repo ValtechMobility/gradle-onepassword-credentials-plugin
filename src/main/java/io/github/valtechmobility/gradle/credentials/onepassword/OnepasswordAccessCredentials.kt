@@ -4,6 +4,7 @@
 package io.github.valtechmobility.gradle.credentials.onepassword
 
 import org.gradle.api.credentials.PasswordCredentials
+import org.gradle.api.tasks.Internal
 
 /**
  *
@@ -24,6 +25,7 @@ public class OnepasswordAccessCredentials(
     private var vaultUsername: CharArray? = null
     private var vaultPassword: CharArray? = null
 
+    @Internal
     override fun getUsername(): String {
         val chars = vaultUsername ?: requestVaultEntry("username").also {
             vaultUsername = it
@@ -31,6 +33,7 @@ public class OnepasswordAccessCredentials(
         return chars.concatToString()
     }
 
+    @Internal
     override fun getPassword(): String {
         val chars = vaultPassword ?: requestVaultEntry("password").also {
             vaultPassword = it

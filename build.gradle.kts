@@ -56,7 +56,7 @@ java {
 }
 
 group = "io.github.valtechmobility"
-version = "0.1.0"
+version = "1.0.0"
 
 publishing {
     publications {
